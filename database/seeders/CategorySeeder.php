@@ -15,9 +15,17 @@ class CategorySeeder extends Seeder
         DB::table('categories')->insert([
             // Electronics (department_id = 1)
             [
-                'name' => 'Smartphones',
+                'name' => 'Electronics',
                 'department_id' => 1,
                 'parent_id' => null,
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Smartphones',
+                'department_id' => 1,
+                'parent_id' => 1,
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -25,7 +33,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Laptops',
                 'department_id' => 1,
-                'parent_id' => null,
+                'parent_id' => 1,
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -33,7 +41,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Android',
                 'department_id' => 1,
-                'parent_id' => 1, // Smartphones
+                'parent_id' => 2, // Smartphones
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -41,7 +49,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'iOS',
                 'department_id' => 1,
-                'parent_id' => 1, // Smartphones
+                'parent_id' => 2, // Smartphones
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -49,7 +57,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Gaming Laptops',
                 'department_id' => 1,
-                'parent_id' => 2, // Laptops
+                'parent_id' => 3, // Laptops
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -57,7 +65,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Ultrabooks',
                 'department_id' => 1,
-                'parent_id' => 2, // Laptops
+                'parent_id' => 3, // Laptops
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -65,9 +73,17 @@ class CategorySeeder extends Seeder
 
             // Fashion (department_id = 2)
             [
-                'name' => 'Men Clothing',
+                'name' => 'Fashion',
                 'department_id' => 2,
                 'parent_id' => null,
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Men Clothing',
+                'department_id' => 2,
+                'parent_id' => 8,
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -75,7 +91,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Women Clothing',
                 'department_id' => 2,
-                'parent_id' => null,
+                'parent_id' => 8,
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -83,7 +99,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Shirts',
                 'department_id' => 2,
-                'parent_id' => 7, // Men Clothing
+                'parent_id' => 9, // Men Clothing
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -91,7 +107,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Pants',
                 'department_id' => 2,
-                'parent_id' => 7, // Men Clothing
+                'parent_id' => 9, // Men Clothing
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -99,7 +115,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Dresses',
                 'department_id' => 2,
-                'parent_id' => 8, // Women Clothing
+                'parent_id' => 10, // Women Clothing
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -107,7 +123,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Skirts',
                 'department_id' => 2,
-                'parent_id' => 8, // Women Clothing
+                'parent_id' => 10, // Women Clothing
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -133,7 +149,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Sofas',
                 'department_id' => 3,
-                'parent_id' => 13, // Furniture
+                'parent_id' => 15, // Furniture
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -141,7 +157,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Tables',
                 'department_id' => 3,
-                'parent_id' => 13, // Furniture
+                'parent_id' => 15, // Furniture
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -149,7 +165,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Cookware',
                 'department_id' => 3,
-                'parent_id' => 14, // Kitchenware
+                'parent_id' => 16, // Kitchenware
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -157,7 +173,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Dinnerware',
                 'department_id' => 3,
-                'parent_id' => 14, // Kitchenware
+                'parent_id' => 16, // Kitchenware
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
