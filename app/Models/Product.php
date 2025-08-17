@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filament\Resources\ProductResource\Pages\ProductVariations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,7 @@ class Product extends Model implements HasMedia
 {
     use InteractsWithMedia;
     public function registerMediaConversions(?Media $media = null): void
-{
+    {
     $this->addMediaConversion('thumb')
         ->width(100);
 
@@ -22,7 +23,7 @@ class Product extends Model implements HasMedia
 
     $this->addMediaConversion('large')
         ->width(1200);
-}
+    }
     /**
      * Get the user that owns the Product
      *
@@ -39,5 +40,9 @@ class Product extends Model implements HasMedia
     public function variationTypes(): HasMany
     {
         return $this->hasMany(VariationType::class);
+    }
+    public function variations(): HasMany
+    {
+        return $this->hasMany(ProductVariations::class,'product_id');
     }
 }
