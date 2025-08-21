@@ -13,8 +13,12 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Product extends Model implements HasMedia
 {
     use InteractsWithMedia;
+
+    protected $casts = [
+        'variations' => 'array'
+    ];
     public function registerMediaConversions(?Media $media = null): void
-    {
+    { 
     $this->addMediaConversion('thumb')
         ->width(100);
 
@@ -43,6 +47,6 @@ class Product extends Model implements HasMedia
     }
     public function variations(): HasMany
     {
-        return $this->hasMany(ProductVariations::class,'product_id');
+        return $this->hasMany(ProductVariation::class,'product_id');
     }
 }

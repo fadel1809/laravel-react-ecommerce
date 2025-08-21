@@ -9,7 +9,6 @@ use App\Filament\Resources\ProductResource\Pages\EditProduct;
 use App\Filament\Resources\ProductResource\Pages\ProductImages;
 use App\Filament\Resources\ProductResource\Pages\ProductVariations;
 use App\Filament\Resources\ProductResource\Pages\ProductVariationTypes;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Facades\Filament;
 use Filament\Forms;
