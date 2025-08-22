@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource;
 use App\Models\Product;
 use Filament\Actions;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -16,7 +17,7 @@ class ProductVariations extends EditRecord
 {
     protected static string $resource = ProductResource::class;
     protected static ?string $navigationIcon = "heroicon-o-clipboard-document-list";
-    protected static ?string $model = Product::class;
+    // protected static ?string $model = Product::class;
     protected static ?string $title = "Variations";
 
     protected function getHeaderActions(): array
@@ -32,7 +33,7 @@ class ProductVariations extends EditRecord
         $fields = [];
 
         foreach ($types as $type) {
-            $fields[] = TextInput::make('variation_type_' . ($type->id) . '.id')->hidden();
+            $fields[] = Hidden::make('variation_type_' . ($type->id) . '.id');
             $fields[] = TextInput::make('variation_type_' . ($type->id) . '.name')->label($type->name);
         }
 
@@ -90,6 +91,7 @@ class ProductVariations extends EditRecord
 
             if (!empty($match)) {
                 $existingEntry = reset($match);
+                $product['id'] = $existingEntry['id'];
                 $product['quantity'] = $existingEntry['quantity'];
                 $product['price'] = $existingEntry['price'];
             } else {
@@ -140,7 +142,6 @@ class ProductVariations extends EditRecord
     $formattedData = [];
     foreach ($data['variations'] as $option) {
         $variationTypeOptionIds = [];
-        
         // Loop melalui variationTypes yang ada di record untuk mendapatkan ID yang benar
         foreach ($this->record->variationTypes as $variationType) {
             // Menggunakan operator null coalescing (??) untuk menangani kunci 'id' yang mungkin tidak ada
@@ -149,8 +150,8 @@ class ProductVariations extends EditRecord
 
         $quantity = $option['quantity'] ?? null;
         $price = $option['price'] ?? null;
-
         $formattedData[] = [
+            'id' => $option['id'],
             'variation_type_option_ids' => $variationTypeOptionIds,
             'quantity' => $quantity,
             'price' => $price
@@ -162,12 +163,20 @@ class ProductVariations extends EditRecord
 }
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        dd($data);
         $variations = $data['variations'];
         unset($data['variations']);
-        $record->update($data);
+        $variations = collect($variations)->map(function ($variation) {
+            return [
+                'id' => $variation['id'],
+                'variation_type_option_ids' => json_encode($variation['variation_type_option_ids']),
+                'quantity' => $variation['quantity'],
+                'price' => $variation['price']
+            ];
+        })
+        ->toArray();
+
         $record->variations()->delete();
-        $record->variations()->createMany($variations);
+        $record->variations()->upsert($variations,['id'], ['variation_type_option_ids','quantity','price']);
         return $record;
     }
 }

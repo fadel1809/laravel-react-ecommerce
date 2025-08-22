@@ -29,7 +29,9 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    public static function getEloquentQuery(): Builder{
+        return parent::getEloquentQuery()->forVendor();
+    }
     public static function form(Form $form): Form
     {
         return $form

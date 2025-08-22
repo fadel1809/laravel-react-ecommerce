@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('product_id')->index()->constrained('products')->cascadeOnDelete();
             $table->json('variation_type_option_ids');
             $table->integer('quantity')->nullable();
-            $table->decimal('price',20,4)->nullable();
+            $table->decimal('price',20,2)->nullable();
             $table->timestamps();
         });
     }
