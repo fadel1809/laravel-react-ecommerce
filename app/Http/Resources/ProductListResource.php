@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use PHPUnit\Framework\Attributes\Small;
 
 class ProductListResource extends JsonResource
 {
@@ -14,6 +15,21 @@ class ProductListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this-> title,
+            'slug' => $this-> slug,
+            'price' => $this->price,
+            'quantity' => $this->quantity,
+            'image' => $this->getFirstMediaUrl('images','small'),
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ],
+            'department' => [
+                'id' => $this->department->id,
+                'name' => $this->department->name
+            ]
+        ];
     }
 }
