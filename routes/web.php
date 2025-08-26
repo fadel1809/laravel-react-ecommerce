@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [ProductController::class,'home'])->name('dashboard');
 Route::get('/products/{product:slug}',[ProductController::class,'show'])->name('product.show');
 
+Route::post('/cart/store/{product}', function(){}) ->name('cart.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
