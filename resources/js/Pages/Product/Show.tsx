@@ -19,7 +19,7 @@ function Show({
     product: Product;
     variationOptions: Record<number, number> | number[];
 }) {
-    console.log(product);
+    
     const form = useForm<Form>({
         option_ids: {},
         quantity: 1,
@@ -30,7 +30,7 @@ function Show({
     // Default harus object kosong, bukan array
     const [selectedOptions, setSelectedOptions] = useState<
         Record<number, VariationTypeOption>
-    >({});
+    >([]);
 
     const images = useMemo(() => {
         for (let typeId in selectedOptions) {
@@ -64,22 +64,18 @@ function Show({
 
     // Pastikan hanya jalan sekali saat mount, atau saat product berubah
     useEffect(() => {
+        if (Object.keys(selectedOptions).length === 0) {
         product.variationTypes.forEach((type, idx) => {
-            // jika variationOptions array, ambil dengan index; jika object, ambil pakai id
             let selectedOptionId: number | undefined;
             if (Array.isArray(variationOptions)) {
                 selectedOptionId = variationOptions[idx];
-            } else if (
-                variationOptions &&
-                typeof variationOptions === "object"
-            ) {
+            } else if (variationOptions && typeof variationOptions === "object") {
                 selectedOptionId = variationOptions[type.id];
             }
-            const found =
-                type.options.find((opt) => opt.id === selectedOptionId) ||
-                type.options[0];
+            const found = type.options.find(opt => opt.id === selectedOptionId) || type.options[0];
             chooseOption(type.id, found, false);
         });
+    }
     }, [product, variationOptions]);
 
     const getOptionIdsMap = (
@@ -134,7 +130,7 @@ function Show({
         return product.variationTypes.map((type) => (
             <div key={type.id}>
                 <b>{type.name}</b>
-                {type.type === "image" && (
+                {type.type === "Image" && (
                     <div className="flex gap-2 mb-4">
                         {type.options.map((option) => (
                             <div
@@ -158,23 +154,26 @@ function Show({
                         ))}
                     </div>
                 )}
-                {type.type === "radio" && (
-                    <div className="flex join mb-4">
+                <div className="flex flex-col">
+
+                {type.type === "Radio" && (
+                    <div className="inline join mb-4">
                         {type.options.map((option) => (
                             <input
-                                onChange={() => chooseOption(type.id, option)}
-                                key={option.id}
-                                className="join-item btn"
-                                type="radio"
-                                checked={
-                                    selectedOptions[type.id]?.id === option.id
-                                }
-                                name={"variation_type_" + type.id}
-                                aria-label={option.name}
+                            onChange={() => chooseOption(type.id, option)}
+                            key={option.id}
+                            className="join-item btn"
+                            type="radio"
+                            checked={
+                                selectedOptions[type.id]?.id === option.id
+                            }
+                            name={"variation_type_" + type.id}
+                            aria-label={option.name}
                             />
                         ))}
                     </div>
                 )}
+                </div>
             </div>
         ));
     };
@@ -216,7 +215,7 @@ function Show({
         <AuthenticatedLayout>
             <Head title={product.title} />
             <div className="container mx-auto p-8">
-                <div className="grid gap-8 grid-cols-1 lg:grid-cols-12">
+                <div className="grid gap-8 grid-cols-1 lg:grid-cols-12 items-start">
                     {/* Kolom kiri */}
                     <div className="lg:col-span-7">
                         <Carousel images={images} />
@@ -229,6 +228,10 @@ function Show({
                         <div className="text-3xl font-semibold">
                             <CurrencyFormatter amount={computedProduct.price} />
                         </div>
+
+                        {/* <pre>
+                            {JSON.stringify(product.variationTypes, undefined, 2)}
+                        </pre> */}
 
                         {renderProductVariationTypes()}
 

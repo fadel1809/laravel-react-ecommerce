@@ -1,14 +1,24 @@
 import { Image } from "@/types";
+import { useEffect, useState } from "react";
 
 export default function Carousel({ images }: { images: Image[] }) {
+    const [selectedImage, setSelectedImage] = useState<Image>(images[0]);
+
+    useEffect(() => {
+        setSelectedImage(images[0])
+    },[images])
     return (
         <>
             <div className="flex items-start gap-8">
                 <div className="flex flex-col items-center gap-2 py-2">
                     {images.map((image, index) => (
-                        <a
-                            href={"#item" + index}
-                            className="border-2 hover:border-blue-500"
+                        <button
+                            onClick={event => 
+                                setSelectedImage(image)
+                            }
+                            className={"border-2 " + (selectedImage.id===image.id?
+                                'border-blue-500': 'hover:border-blue-500'
+                            )}
                             key={image.id}
                         >
                             <img
@@ -16,19 +26,17 @@ export default function Carousel({ images }: { images: Image[] }) {
                                 alt=""
                                 className="w-[50px]"
                             />
-                        </a>
+                        </button>
                     ))}
                 </div>
                 <div className="carousel w-full">
-                    {images.map((image, index) => (
-                        <div id={"item"+index} className="carousel-item w-full" key={image.id} >
+                    <div className="carousel-item w-full" >
                           <img
-                                src={image.large}
+                                src={selectedImage.large}
                                 alt=""
                                 className="w-full"
                             />
                         </div>
-                    ))}
                 </div>
             </div>
         </>
