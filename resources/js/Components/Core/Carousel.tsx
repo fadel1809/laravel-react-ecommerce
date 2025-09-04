@@ -5,20 +5,21 @@ export default function Carousel({ images }: { images: Image[] }) {
     const [selectedImage, setSelectedImage] = useState<Image>(images[0]);
 
     useEffect(() => {
-        setSelectedImage(images[0])
-    },[images])
+        setSelectedImage(images[0]);
+    }, [images]);
     return (
         <>
             <div className="flex items-start gap-8">
                 <div className="flex flex-col items-center gap-2 py-2">
                     {images.map((image, index) => (
                         <button
-                            onClick={event => 
-                                setSelectedImage(image)
+                            onClick={(event) => setSelectedImage(image)}
+                            className={
+                                "border-2 " +
+                                (selectedImage.id === image.id
+                                    ? "border-blue-500"
+                                    : "hover:border-blue-500")
                             }
-                            className={"border-2 " + (selectedImage.id===image.id?
-                                'border-blue-500': 'hover:border-blue-500'
-                            )}
                             key={image.id}
                         >
                             <img
@@ -30,13 +31,13 @@ export default function Carousel({ images }: { images: Image[] }) {
                     ))}
                 </div>
                 <div className="carousel w-full">
-                    <div className="carousel-item w-full" >
-                          <img
-                                src={selectedImage.large}
-                                alt=""
-                                className="w-full"
-                            />
-                        </div>
+                    <div className="carousel-item w-full">
+                        <img
+                            src={selectedImage.large}
+                            alt=""
+                            className="w-full"
+                        />
+                    </div>
                 </div>
             </div>
         </>

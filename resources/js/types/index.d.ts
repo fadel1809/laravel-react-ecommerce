@@ -54,7 +54,23 @@ export type Product = {
         price: number; 
     }>
 }
-
+export type CartItem = {
+    id:number;
+    product_id: number;
+    title: string;
+    slug: string;
+    price: number;
+    quantity: number;
+    image:string;
+    option_ids: Record<string,number>;
+    options: VariationTypeOption[];
+};
+export type GroupedCartItems = {
+    user: User;
+    items: CartItem[];
+    totalPrice: number;
+    totalQuantity: number
+}
 export type PaginationProps<T> = {
     data: Array<T>,
     
@@ -62,8 +78,17 @@ export type PaginationProps<T> = {
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {
+    csrf_token?: string;
+    error: string;
+    success: {
+        message: string;
+        time: number;
+    };
     auth: {
         user: User;
     };
     ziggy: Config & { location: string };
+    totalQuantity: number;
+    totalPrice: number;
+    miniCartItems: CartItem[];
 };
